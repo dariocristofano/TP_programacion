@@ -44,3 +44,28 @@ def obtener_claves(diccionario: dict) -> list:
         claves.append(clave)
 
     return claves
+
+def validar_valor_numerico(valor: str) -> bool:
+    '''
+    valida si un string representa un numero entero o decimal
+    recibe el string a verificar
+    retorna True si es numerico, False si no
+    '''
+    if len(valor) == 0:
+        return False
+
+    tiene_punto = False
+    inicio = 0
+
+    if ord(valor[0]) == 45:
+        inicio = 1
+        if len(valor) == 1:
+            return False
+
+    for j in range(inicio, len(valor)):
+        if ord(valor[j]) == 46 and tiene_punto == False:
+            tiene_punto = True
+        elif ord(valor[j]) < 48 or ord(valor[j]) > 57:
+            return False
+
+    return True

@@ -1,4 +1,4 @@
-from modulos.reutilizables import validar_entero, validar_indice, obtener_claves
+from modulos.reutilizables import validar_entero, validar_indice, obtener_claves, validar_valor_numerico
 from modulos.proyectos import elegir_proyecto
 
 
@@ -22,23 +22,45 @@ def crear_tabla(filas: int, columnas: int) -> list:
     return matriz
 
 
-def cargar_tabla(tabla: list) -> None:
+def cargar_tabla_validada(tabla: list) -> None:
     '''
-    carga los datos en una matriz ya creada
-    fila 0 se carga con nombres de columnas
-    filas siguientes con los datos
+    carga los datos en una matriz validando que cada columna sea tipo consistente
+    no permite mezclar numeros con texto en la misma columna
     recibe la matriz
     no retorna nada
     '''
     columnas = len(tabla[0])
-
+    tipos_columnas = [None] * columnas
+    
     for j in range(columnas):
         tabla[0][j] = input(f"Nombre de la columna {j+1}: ")
-
+    
     for i in range(1, len(tabla)):
         for j in range(columnas):
-            tabla[i][j] = input(f"Fila {i} - {tabla[0][j]}: ")
-
+            while True:
+                valor = input(f"Fila {i} - {tabla[0][j]}: ")
+                
+                if tipos_columnas[j] is None:
+                    if validar_valor_numerico(valor):
+                        tipos_columnas[j] = "numerico"
+                    else:
+                        tipos_columnas[j] = "texto"
+                    tabla[i][j] = valor
+                    break
+                
+                elif tipos_columnas[j] == "numerico":
+                    if validar_valor_numerico(valor):
+                        tabla[i][j] = valor
+                        break
+                    else:
+                        print(f"ERROR: '{tabla[0][j]}' es numerica. Ingrese un numero.")
+                
+                else:
+                    if not validar_valor_numerico(valor):
+                        tabla[i][j] = valor
+                        break
+                    else:
+                        print(f"ERROR: '{tabla[0][j]}' es texto. No ingrese numeros.")
 
 def agregar_tabla(proyectos: dict) -> None:
     '''
@@ -53,7 +75,7 @@ def agregar_tabla(proyectos: dict) -> None:
     columnas = validar_entero("Cuantas columnas?: ")
 
     tabla = crear_tabla(filas, columnas)
-    cargar_tabla(tabla)
+    cargar_tabla_validada(tabla)
 
     proyecto["tablas"][nombre] = tabla
 
