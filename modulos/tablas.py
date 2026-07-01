@@ -39,24 +39,29 @@ def cargar_tabla_validada(tabla: list) -> None:
         tabla[0][j] = input(f"Nombre de la columna {j+1}: ")
 
     for i in range(1, len(tabla)):
+
         for j in range(columnas):
 
             while True:
-                valor = input(f"Fila {i} - {tabla[0][j]}: ")
+
+                valor = input (f"Fila {i} - {tabla[0][j]}: ")
 
                 if len(valor) == 0:
                     print("ERROR: el valor no puede estar vacio.")
 
                 elif tipos_columnas[j] == False:
-                    if validar_valor_numerico(valor):
+
+                    if validar_valor_numerico(valor) == True:
                         tipos_columnas[j] = "numerico"
                     else:
                         tipos_columnas[j] = "texto"
                     tabla[i][j] = valor
                     break
 
+
+
                 elif tipos_columnas[j] == "numerico":
-                    if validar_valor_numerico(valor):
+                    if validar_valor_numerico(valor) == True:
                         tabla[i][j] = valor
                         break
                     else:
@@ -126,18 +131,24 @@ def modificar_tabla(proyectos: list) -> None:
     columna = validar_indice("Que columna desea modificar?: ", len(tabla[0]))
 
     es_numerica = False
+
     for i in range(1, len(tabla)):
-        if validar_valor_numerico(tabla[i][columna]):
+
+        if validar_valor_numerico(tabla[i][columna]) == True:
             es_numerica = True
 
     while True:
         elemento = input("Nuevo valor: ")
+
         if len(elemento) == 0:
             print("ERROR: el valor no puede estar vacio.")
-        elif es_numerica and validar_valor_numerico(elemento) == False:
+
+        elif es_numerica == True and validar_valor_numerico(elemento) == False:
             print("ERROR: la columna es numerica. Ingrese un numero.")
-        elif es_numerica == False and validar_valor_numerico(elemento):
+
+        elif es_numerica == False and validar_valor_numerico(elemento) == True:
             print("ERROR: la columna es de texto. No ingrese numeros.")
+
         else:
             break
 

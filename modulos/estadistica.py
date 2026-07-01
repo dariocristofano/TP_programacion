@@ -151,61 +151,61 @@ def mostrar_menu_estadistica(proyectos: list) -> None:
     no retorna nada
     '''
     tabla = elegir_tabla(proyectos)
+    puede_continuar = tabla != False
 
-    if tabla == False:
-        return
+    if puede_continuar == True:
+        print()
+        for i in range(len(tabla[0])):
+            print(f"  {i+1}. {tabla[0][i]}")
 
-    print()
-    for i in range(len(tabla[0])):
-        print(f"  {i+1}. {tabla[0][i]}")
+        columna = validar_indice("Que columna desea analizar?: ", len(tabla[0]))
 
-    columna = validar_indice("Que columna desea analizar?: ", len(tabla[0]))
+        es_numerica = True
+        for i in range(1, len(tabla)):
+            if validar_valor_numerico(tabla[i][columna]) == False:
+                es_numerica = False
 
-    es_numerica = True
-    for i in range(1, len(tabla)):
-        if validar_valor_numerico(tabla[i][columna]) == False:
-            es_numerica = False
+        if es_numerica == False:
+            print("La columna seleccionada no es numerica")
+            puede_continuar = False
 
-    if es_numerica == False:
-        print("La columna seleccionada no es numerica")
-        return
+    if puede_continuar == True:
+        print()
+        print("1. Maximo y minimo")
+        print("2. Promedio aritmetico")
+        print("3. Promedio geometrico")
+        print("4. Frecuencias")
+        print("5. Dispersion (varianza y desvio estandar)")
+        print("6. Posicion (mediana y cuartiles)")
 
-    print()
-    print("1. Maximo y minimo")
-    print("2. Promedio aritmetico")
-    print("3. Promedio geometrico")
-    print("4. Frecuencias")
-    print("5. Dispersion (varianza y desvio estandar)")
-    print("6. Posicion (mediana y cuartiles)")
+        opcion = input("Que desea calcular?: ")
 
-    opcion = input("Que desea calcular?: ")
+        if opcion == "1":
+            print(f"  Maximo: {calcular_maximo(tabla, columna)}")
+            print(f"  Minimo: {calcular_minimo(tabla, columna)}")
 
-    if opcion == "1":
-        print(f"  Maximo: {calcular_maximo(tabla, columna)}")
-        print(f"  Minimo: {calcular_minimo(tabla, columna)}")
+        elif opcion == "2":
+            print(f"  Promedio aritmetico: {calcular_promedio_aritmetico(tabla, columna):.4f}")
 
-    elif opcion == "2":
-        print(f"  Promedio aritmetico: {calcular_promedio_aritmetico(tabla, columna):.4f}")
+        elif opcion == "3":
+            print(f"  Promedio geometrico: {calcular_promedio_geometrico(tabla, columna):.4f}")
 
-    elif opcion == "3":
-        print(f"  Promedio geometrico: {calcular_promedio_geometrico(tabla, columna):.4f}")
+        elif opcion == "4":
+            frecuencia = calcular_frecuencia(tabla, columna)
+            for valor in frecuencia:
+                print(f"  {valor}: {frecuencia[valor]} veces")
 
-    elif opcion == "4":
-        frecuencia = calcular_frecuencia(tabla, columna)
-        for valor in frecuencia:
-            print(f"  {valor}: {frecuencia[valor]} veces")
+        elif opcion == "5":
+            varianza, desvio = calcular_dispersion(tabla, columna)
+            print(f"  Varianza: {varianza:.4f}")
+            print(f"  Desvio estandar: {desvio:.4f}")
 
-    elif opcion == "5":
-        varianza, desvio = calcular_dispersion(tabla, columna)
-        print(f"  Varianza: {varianza:.4f}")
-        print(f"  Desvio estandar: {desvio:.4f}")
+        elif opcion == "6":
+            posicion = calcular_posicion(tabla, columna)
+            print(f"  Mediana: {posicion['mediana']}")
+            print(f"  Q1: {posicion['q1']}")
+            print(f"  Q3: {posicion['q3']}")
 
-    elif opcion == "6":
-        posicion = calcular_posicion(tabla, columna)
-        print(f"  Mediana: {posicion['mediana']}")
-        print(f"  Q1: {posicion['q1']}")
-        print(f"  Q3: {posicion['q3']}")
-
-    else:
-        print("Opcion invalida")
-        mostrar_menu_estadistica(proyectos)
+        else:
+            print("Opcion invalida")
+            mostrar_menu_estadistica(proyectos)

@@ -116,36 +116,36 @@ def menu_principal() -> None:
         print("F. Salir")
         print()
 
-        opcion = input("Ingrese una opcion: ").upper()
+        opcion = input("Ingrese una opcion: ")
 
-        if opcion == "A":
+        if opcion == "A" or opcion == "a":
             mostrar_menu_proyectos(proyectos)
 
-        elif opcion == "B":
+        elif opcion == "B" or opcion == "b":
             if len(proyectos) == 0:
                 print("No hay proyectos cargados")
             else:
                 agregar_tabla(proyectos)
 
-        elif opcion == "C":
+        elif opcion == "C" or opcion == "c":
             if len(proyectos) == 0:
                 print("No hay proyectos cargados")
             else:
                 modificar_tabla(proyectos)
 
-        elif opcion == "D":
+        elif opcion == "D" or opcion == "d":
             if len(proyectos) == 0:
                 print("No hay proyectos cargados")
             else:
                 menu_mostrar()
 
-        elif opcion == "E":
+        elif opcion == "E" or opcion == "e":
             if len(proyectos) == 0:
                 print("No hay proyectos cargados")
             else:
                 mostrar_menu_estadistica(proyectos)
 
-        elif opcion == "F":
+        elif opcion == "F" or opcion == "f":
             guardar_proyectos(proyectos)
             guardar_usuarios(usuarios)
             print("Datos guardados. Saliendo del programa")

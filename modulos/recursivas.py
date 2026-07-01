@@ -7,6 +7,8 @@ def calcular_es_multiplo(numero: int, base: int) -> bool:
     """
     if base == 0:
         resultado = False
+    elif base < 0:
+        resultado = calcular_es_multiplo(numero, -base)
     elif numero < 0:
         resultado = calcular_es_multiplo(numero + base, base)
     elif numero == 0:
@@ -18,6 +20,9 @@ def calcular_es_multiplo(numero: int, base: int) -> bool:
 
 
     return resultado
+
+#4, 2
+
 
 def calcular_es_par(numero: int) -> bool:
     """
@@ -58,6 +63,8 @@ def calcular_es_primo(numero: int, divisor: int = 2) -> bool:
 
     return resultado
 
+#10, 11
+
 
 
 
@@ -76,3 +83,6 @@ def esta_en_rango(numero: int, minimo: int, maximo: int) -> bool:
 
 
     return resultado
+
+#8, 2, 10
+#12, 2, 10

@@ -27,8 +27,23 @@ def elegir_proyecto(proyectos: list) -> dict:
     return proyectos[eleccion]
 
 
-def eliminar_proyecto(proyectos:list) -> None:
-    pass
+def eliminar_proyecto(proyectos: list) -> None:
+    '''
+    elimina un proyecto de la lista de proyectos
+    recibe la lista de proyectos
+    no retorna nada
+    '''
+    nombres = obtener_nombres(proyectos)
+
+    for i in range(len(nombres)):
+        print(f"  {i+1}. {nombres[i]}")
+
+    eleccion = validar_indice("Que proyecto desea eliminar?: ", len(nombres))
+    nombre = proyectos[eleccion]["nombre"]
+
+    proyectos.pop(eleccion)
+
+    print(f"Proyecto '{nombre}' eliminado exitosamente")
 
 
 def mostrar_proyecto(proyectos: list) -> None:

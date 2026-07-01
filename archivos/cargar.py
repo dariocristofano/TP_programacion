@@ -44,7 +44,40 @@ def cargar_usuarios() -> list:
     return usuarios
 
 
-
+def cargar_proyectos() -> list:
+    '''
+    carga los proyectos desde el archivo csv
+    no recibe parametros
+    retorna la lista de proyectos (lista de diccionarios)
+    '''
+    archivo = open("archivos/proyectos.csv", "r")
+    proyectos = []
+    proyecto_actual = False
+    tabla_actual = False
+ 
+    for linea in archivo:
+        valores = separar_linea(linea)
+ 
+        if len(valores) == 0:
+            continue
+ 
+        if valores[0] == "PROYECTO":
+            nuevo_proyecto = {"nombre": valores[1], "tablas": []}
+            proyectos.append(nuevo_proyecto)
+            proyecto_actual = nuevo_proyecto
+            tabla_actual = False
+ 
+        elif valores[0] == "TABLA":
+            nueva_tabla = {"nombre": valores[1], "matriz": []}
+            proyecto_actual["tablas"].append(nueva_tabla)
+            tabla_actual = nueva_tabla["matriz"]
+ 
+        else:
+            if tabla_actual != False:
+                tabla_actual.append(valores)
+ 
+    archivo.close()
+    return proyectos
 
 
 
