@@ -67,9 +67,20 @@ def esta_en_rango(numero: int, minimo: int, maximo: int) -> bool:
     numero: entero a que se evalua, minimo: limite minimo, maximo: limite maximo
     retorna true si numero esta entre minimo y maximo inclusive o false si no
     """
+<<<<<<< HEAD
     if numero < minimo or numero > maximo:
         resultado = False
     else:
         resultado = True
         
+=======
+    if minimo > maximo:
+        resultado = False
+    elif numero == minimo:
+        resultado = True
+    else:
+        resultado = esta_en_rango(numero, minimo + 1, maximo)
+
+
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
     return resultado

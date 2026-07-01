@@ -32,6 +32,7 @@ def validar_indice(mensaje: str, cantidad: int) -> int:
     return opcion
 
 
+<<<<<<< HEAD
 def obtener_claves(diccionario: dict) -> list:
     '''
     retorna una lista con las claves de un diccionario
@@ -44,6 +45,22 @@ def obtener_claves(diccionario: dict) -> list:
         claves.append(clave)
 
     return claves
+=======
+def obtener_nombres(lista: list) -> list:
+    '''
+    retorna una lista con el valor de la clave "nombre" de cada diccionario
+    recibe una lista de diccionarios que contienen la clave "nombre"
+    (sirve tanto para la lista de proyectos como para la lista de tablas)
+    retorna una lista de strings con los nombres
+    '''
+    nombres = []
+
+    for i in range(len(lista)):
+        nombres.append(lista[i]["nombre"])
+
+    return nombres
+
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
 
 def validar_valor_numerico(valor: str) -> bool:
     '''
@@ -68,4 +85,8 @@ def validar_valor_numerico(valor: str) -> bool:
         elif ord(valor[j]) < 48 or ord(valor[j]) > 57:
             return False
 
+<<<<<<< HEAD
     return True
+=======
+    return True
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d

@@ -1,8 +1,16 @@
 from modulos import *
+<<<<<<< HEAD
 
 
 usuarios = [["admin", "1234"]]
 proyectos = {}
+=======
+from archivos import *
+
+
+usuarios = cargar_usuarios()
+proyectos = cargar_proyectos()
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
 
 
 def registrar_usuario() -> None:
@@ -15,6 +23,10 @@ def registrar_usuario() -> None:
     contrasena = input("Establezca una contrasena: ")
 
     usuarios.append([usuario, contrasena])
+<<<<<<< HEAD
+=======
+    guardar_usuarios(usuarios)
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
 
     print(f"Usuario '{usuario}' registrado exitosamente")
 
@@ -71,7 +83,11 @@ def menu_mostrar() -> None:
     '''
     tabla = elegir_tabla(proyectos)
 
+<<<<<<< HEAD
     if tabla == None:
+=======
+    if tabla == False:
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
         return
 
     print()
@@ -144,7 +160,13 @@ def menu_principal() -> None:
                 mostrar_menu_estadistica(proyectos)
 
         elif opcion == "F":
+<<<<<<< HEAD
             print("Saliendo del programa")
+=======
+            guardar_proyectos(proyectos)
+            guardar_usuarios(usuarios)
+            print("Datos guardados. Saliendo del programa")
+>>>>>>> 76a9f4425b49fee56bcb47c2e6dd3ad2d4707b5d
             corriendo = False
 
         else:
