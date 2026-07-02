@@ -104,16 +104,19 @@ def elegir_tabla(proyectos: list) -> list:
     proyecto = elegir_proyecto(proyectos)
     tablas = proyecto["tablas"]
     nombres = obtener_nombres(tablas)
+    resultado = False
 
     if len(nombres) == 0:
         print("Este proyecto no tiene tablas")
-        return False
 
-    for i in range(len(nombres)):
-        print(f"  {i+1}. {nombres[i]}")
+    else:
+        for i in range(len(nombres)):
+            print(f"  {i+1}. {nombres[i]}")
 
-    eleccion = validar_indice("Que tabla?: ", len(nombres))
-    return tablas[eleccion]["matriz"]
+        eleccion = validar_indice("Que tabla?: ", len(nombres))
+        resultado = tablas[eleccion]["matriz"]
+
+    return resultado
 
 
 def modificar_tabla(proyectos: list) -> None:
@@ -124,36 +127,33 @@ def modificar_tabla(proyectos: list) -> None:
     '''
     tabla = elegir_tabla(proyectos)
 
-    if tabla == False:
-        return
+    if tabla != False:
+        fila = validar_indice("Que fila desea modificar?: ", len(tabla) - 1) + 1
+        columna = validar_indice("Que columna desea modificar?: ", len(tabla[0]))
 
-    fila = validar_indice("Que fila desea modificar?: ", len(tabla) - 1) + 1
-    columna = validar_indice("Que columna desea modificar?: ", len(tabla[0]))
+        es_numerica = False
+        for i in range(1, len(tabla)):
+            if validar_valor_numerico(tabla[i][columna]):
+                es_numerica = True
 
-    es_numerica = False
+        valor_aceptado = False
+        while valor_aceptado == False:
+            elemento = input("Nuevo valor: ")
 
-    for i in range(1, len(tabla)):
+            if len(elemento) == 0:
+                print("ERROR: el valor no puede estar vacio.")
 
-        if validar_valor_numerico(tabla[i][columna]) == True:
-            es_numerica = True
+            elif es_numerica == True and validar_valor_numerico(elemento) == False:
+                print("ERROR: la columna es numerica. Ingrese un numero.")
 
-    while True:
-        elemento = input("Nuevo valor: ")
+            elif es_numerica == False and validar_valor_numerico(elemento) == True:
+                print("ERROR: la columna es de texto. No ingrese numeros.")
 
-        if len(elemento) == 0:
-            print("ERROR: el valor no puede estar vacio.")
+            else:
+                valor_aceptado = True
 
-        elif es_numerica == True and validar_valor_numerico(elemento) == False:
-            print("ERROR: la columna es numerica. Ingrese un numero.")
-
-        elif es_numerica == False and validar_valor_numerico(elemento) == True:
-            print("ERROR: la columna es de texto. No ingrese numeros.")
-
-        else:
-            break
-
-    tabla[fila][columna] = elemento
-    print("Modificado correctamente")
+        tabla[fila][columna] = elemento
+        print("Modificado correctamente")
 
 
 def mostrar_tabla(tabla: list) -> None:

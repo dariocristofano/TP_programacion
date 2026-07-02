@@ -31,7 +31,7 @@ def calcular_es_par(numero: int) -> bool:
     retorna true si es par o false si es impar
     """
     if numero < 0:
-        return calcular_es_par(numero + 2)
+        resultado = calcular_es_par(numero + 2)
     elif numero == 0:
         resultado = True
     elif numero == 1:

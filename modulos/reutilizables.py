@@ -4,18 +4,20 @@ def validar_entero(mensaje: str) -> int:
     recibe el mensaje a mostrar
     retorna el numero validado
     '''
-    numero = input(mensaje)
-    es_valido = True
+    es_valido = False
 
-    for i in range(len(numero)):
-        if ord(numero[i]) < 48 or ord(numero[i]) > 57:
-            es_valido = False
+    while es_valido == False:
+        numero = input(mensaje)
+        es_valido = len(numero) > 0
 
-    if es_valido == True and len(numero) > 0:
-        return int(numero)
+        for i in range(len(numero)):
+            if ord(numero[i]) < 48 or ord(numero[i]) > 57:
+                es_valido = False
 
-    print("Opcion invalida")
-    return validar_entero(mensaje)
+        if es_valido == False:
+            print("Opcion invalida")
+
+    return int(numero)
 
 
 def validar_indice(mensaje: str, cantidad: int) -> int:

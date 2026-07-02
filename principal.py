@@ -29,14 +29,18 @@ def iniciar_sesion() -> bool:
     '''
     usuario = input("Usuario: ")
     contrasena = input("Contrasena: ")
+    exito = False
 
     for i in range(len(usuarios)):
         if usuarios[i][0] == usuario and usuarios[i][1] == contrasena:
-            print(f"Bienvenido {usuario}")
-            return True
+            exito = True
 
-    print("Usuario o contrasena incorrectos")
-    return False
+    if exito == True:
+        print(f"Bienvenido {usuario}")
+    else:
+        print("Usuario o contrasena incorrectos")
+
+    return exito
 
 
 def menu_login() -> None:
@@ -73,28 +77,26 @@ def menu_mostrar() -> None:
     '''
     tabla = elegir_tabla(proyectos)
 
-    if tabla == False:
-        return
+    if tabla != False:
+        print()
+        print("1. Tabla completa")
+        print("2. Una columna")
+        print("3. Una fila")
 
-    print()
-    print("1. Tabla completa")
-    print("2. Una columna")
-    print("3. Una fila")
+        opcion = input("Que desea ver?: ")
 
-    opcion = input("Que desea ver?: ")
+        if opcion == "1":
+            mostrar_tabla(tabla)
 
-    if opcion == "1":
-        mostrar_tabla(tabla)
+        elif opcion == "2":
+            mostrar_columna(tabla)
 
-    elif opcion == "2":
-        mostrar_columna(tabla)
+        elif opcion == "3":
+            mostrar_fila(tabla)
 
-    elif opcion == "3":
-        mostrar_fila(tabla)
-
-    else:
-        print("Opcion invalida")
-        menu_mostrar()
+        else:
+            print("Opcion invalida")
+            menu_mostrar()
 
 
 def menu_principal() -> None:

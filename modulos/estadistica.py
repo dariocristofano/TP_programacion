@@ -2,11 +2,11 @@ from modulos.reutilizables import validar_indice, validar_valor_numerico
 from modulos.tablas import elegir_tabla
 
 
-def calcular_maximo(tabla: list, columna: int) -> float:
+def calcular_maximo(tabla: list, columna: int) -> tuple:
     '''
-    calcula el valor maximo de una columna numerica
+    calcula el valor maximo de una columna numerica y cuantas veces aparece
     recibe la matriz y el indice de la columna
-    retorna el valor maximo como float
+    retorna una tupla con el maximo y su conteo
     '''
     maximo = float(tabla[1][columna])
 
@@ -16,14 +16,19 @@ def calcular_maximo(tabla: list, columna: int) -> float:
         if valor > maximo:
             maximo = valor
 
-    return maximo
+    conteo = 0
+    for i in range(1, len(tabla)):
+        if float(tabla[i][columna]) == maximo:
+            conteo += 1
+
+    return maximo, conteo
 
 
-def calcular_minimo(tabla: list, columna: int) -> float:
+def calcular_minimo(tabla: list, columna: int) -> tuple:
     '''
-    calcula el valor minimo de una columna numerica
+    calcula el valor minimo de una columna numerica y cuantas veces aparece
     recibe la matriz y el indice de la columna
-    retorna el valor minimo como float
+    retorna una tupla con el minimo y su conteo
     '''
     minimo = float(tabla[1][columna])
 
@@ -33,7 +38,12 @@ def calcular_minimo(tabla: list, columna: int) -> float:
         if valor < minimo:
             minimo = valor
 
-    return minimo
+    conteo = 0
+    for i in range(1, len(tabla)):
+        if float(tabla[i][columna]) == minimo:
+            conteo += 1
+
+    return minimo, conteo
 
 
 def calcular_promedio_aritmetico(tabla: list, columna: int) -> float:
@@ -112,6 +122,16 @@ def calcular_dispersion(tabla: list, columna: int) -> tuple:
 
     return varianza, desvio
 
+def calcular_coeficiente_variacion(tabla: list, columna: int) -> float:
+    '''
+    calcula el coeficiente de variacion de una columna numerica
+    recibe la matriz y el indice de la columna
+    retorna el coeficiente de variacion como float
+    '''
+    promedio = calcular_promedio_aritmetico(tabla, columna)
+    varianza, desvio = calcular_dispersion(tabla, columna)
+
+    return (desvio / promedio) * 100
 
 def calcular_posicion(tabla: list, columna: int) -> dict:
     '''
@@ -142,6 +162,32 @@ def calcular_posicion(tabla: list, columna: int) -> dict:
     q3 = valores[(3 * n) // 4]
 
     return {"mediana": mediana, "q1": q1, "q3": q3}
+
+def calcular_deciles(tabla: list, columna: int) -> dict:
+    '''
+    calcula los deciles de una columna numerica
+    recibe la matriz y el indice de la columna
+    retorna un diccionario con los 9 deciles
+    '''
+    valores = []
+
+    for i in range(1, len(tabla)):
+        valores.append(float(tabla[i][columna]))
+
+    for i in range(len(valores)):
+        for j in range(len(valores) - 1):
+            if valores[j] > valores[j + 1]:
+                aux = valores[j]
+                valores[j] = valores[j + 1]
+                valores[j + 1] = aux
+
+    n = len(valores)
+    deciles = {}
+
+    for i in range(1, 10):
+        deciles[i] = valores[(i * n) // 10]
+
+    return deciles
 
 
 def mostrar_menu_estadistica(proyectos: list) -> None:
@@ -177,18 +223,24 @@ def mostrar_menu_estadistica(proyectos: list) -> None:
         print("4. Frecuencias")
         print("5. Dispersion (varianza y desvio estandar)")
         print("6. Posicion (mediana y cuartiles)")
+        print("7. Coeficiente de variacion")
+        print("8. Deciles")
 
         opcion = input("Que desea calcular?: ")
 
         if opcion == "1":
-            print(f"  Maximo: {calcular_maximo(tabla, columna)}")
-            print(f"  Minimo: {calcular_minimo(tabla, columna)}")
+            maximo, conteo_max = calcular_maximo(tabla, columna)
+            minimo, conteo_min = calcular_minimo(tabla, columna)
+            print(f"  Maximo: {maximo} (aparece {conteo_max} vez/veces)")
+            print(f"  Minimo: {minimo} (aparece {conteo_min} vez/veces)")
 
         elif opcion == "2":
-            print(f"  Promedio aritmetico: {calcular_promedio_aritmetico(tabla, columna):.4f}")
+            resultado = calcular_promedio_aritmetico(tabla, columna)
+            print(f"  Promedio aritmetico: {resultado:.4f}")
 
         elif opcion == "3":
-            print(f"  Promedio geometrico: {calcular_promedio_geometrico(tabla, columna):.4f}")
+            resultado = calcular_promedio_geometrico(tabla, columna)
+            print(f"  Promedio geometrico: {resultado:.4f}")
 
         elif opcion == "4":
             frecuencia = calcular_frecuencia(tabla, columna)
@@ -205,6 +257,15 @@ def mostrar_menu_estadistica(proyectos: list) -> None:
             print(f"  Mediana: {posicion['mediana']}")
             print(f"  Q1: {posicion['q1']}")
             print(f"  Q3: {posicion['q3']}")
+
+        elif opcion == "7":
+            resultado = calcular_coeficiente_variacion(tabla, columna)
+            print(f"  Coeficiente de variacion: {resultado:.4f}%")
+
+        elif opcion == "8":
+            deciles = calcular_deciles(tabla, columna)
+            for i in range(1, 10):
+                print(f"  D{i}: {deciles[i]}")
 
         else:
             print("Opcion invalida")
